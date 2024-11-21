@@ -1,9 +1,11 @@
 services:
   multimatics-devel:
     container_name: multimatics-devel
-    image: mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm
+    build:
+      context: .
+      dockerfile: dockerfile.devel
     volumes:
-      - .:/home/node/workspace
+      - .:/home/root/workspace
     command: sleep infinity
     networks:
       - multimatics-devel-network

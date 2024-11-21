@@ -2,17 +2,18 @@
     "name": "multimatics-dev",
     "service": "multimatics-devel",
     "dockerComposeFile": "../docker-compose.devel.yaml",
-    // "features": {
-    //     "ghcr.io/devcontainers/features/docker-outside-of-docker": {}
-    // },
-    "workspaceFolder": "/home/node/workspace",
-    "workspaceMount": "source=${localWorkspaceFolder},target=/home/node/workspace,type=bind",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-outside-of-docker": {}
+    },
+    "workspaceFolder": "/home/root/workspace",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/root/workspace,type=bind",
     "containerEnv": {
         "TZ": "Asia/Jakarta"
     },
     "customizations": {
         "vscode": {
             "extensions": [
+                "golang.go",
                 "ms-vscode.vscode-typescript-next",
                 "esbenp.prettier-vscode",
                 "dbaeumer.vscode-eslint",
