@@ -90,4 +90,70 @@ func main() {
 
 	fmt.Printf("Luas persegi panjang: %d\n", areaRectangle)
 	fmt.Printf("Keliling persegi panjang: %d\n", perimeterRectangle)
+
+	// array
+	var names [5]string
+	names[0] = "Didi"
+	names[1] = "Ruhyadi"
+
+	fmt.Println(names)
+	fmt.Println(len(names))
+
+	// slice
+	var fruits = []string{"apple", "banana", "mango"}
+	fmt.Println(fruits)
+	fmt.Println(len(fruits))
+
+	// append
+	fruits = append(fruits, "orange")
+	fmt.Println(fruits)
+	fmt.Println(len(fruits))
+
+	// iterate slice
+	for i, fruit := range fruits {
+		fmt.Println(i, fruit)
+	}
+
+	// map
+	var person = map[string]string{
+		"name":    "Didi Ruhyadi",
+		"address": "Jakarta Selatan",
+	}
+	fmt.Println(person)
+
+	person["age"] = "30"
+	fmt.Println(person)
+
+	// change the age of person
+	person["age"] = "31"
+	fmt.Println(person)
+
+	// nested map
+	var persons = []map[string]string{
+		{"name": "Didi Ruhyadi", "address": "Jakarta Selatan"},
+		{"name": "Budi", "address": "Jakarta Pusat"},
+	}
+	fmt.Println(persons)
+
+	// nested map (map inside map)
+	var persons2 = map[string]map[string]string{
+		"1": {"name": "Didi Ruhyadi", "address": "Jakarta Selatan"},
+		"2": {"name": "Budi", "address": "Jakarta Pusat"},
+	}
+	fmt.Println(persons2)
+
+	type Person struct {
+		Name    string
+		Age     int
+		Address string
+		Scores  []int
+	}
+
+	var person3 = Person{
+		Name:    "Didi Ruhyadi",
+		Age:     30,
+		Address: "Jakarta Selatan",
+		Scores:  []int{90, 80, 70},
+	}
+	fmt.Println(person3)
 }
