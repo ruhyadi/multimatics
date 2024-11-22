@@ -156,4 +156,13 @@ func main() {
 		Scores:  []int{90, 80, 70},
 	}
 	fmt.Println(person3)
+
+	var persons3 = make(map[string]Person)
+	persons3["1"] = Person{
+		Name:    "Didi Ruhyadi",
+		Age:     30,
+		Address: "Jakarta Selatan",
+		Scores:  []int{90, 80, 70},
+	}
+	fmt.Println(persons3)
 }
