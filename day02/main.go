@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
 
@@ -49,7 +52,13 @@ func main() {
 
 	// mathematics operation
 	var name1 = "Didi"
-	var name2 = "Ruhyadi"
+	var name2 = "didi"
 	var result = name1 == name2
+	fmt.Println(result)
+
+	result = strings.EqualFold(name1, name2)
+	fmt.Println(result)
+
+	result = strings.ToLower(name1) == strings.ToLower(name2)
 	fmt.Println(result)
 }
