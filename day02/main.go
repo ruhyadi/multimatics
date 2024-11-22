@@ -1,6 +1,7 @@
 package main
 
 import (
+	"day02/mathutils"
 	"fmt"
 	"strings"
 )
@@ -61,4 +62,32 @@ func main() {
 
 	result = strings.ToLower(name1) == strings.ToLower(name2)
 	fmt.Println(result)
+
+	// use mathutils
+	area := mathutils.AreaRectangle(10, 5)
+	fmt.Println("Area of rectangle: ", area)
+
+	areaCircle := mathutils.AreaCircle(10)
+	fmt.Println("Area of circle: ", areaCircle)
+
+	fmt.Println("Masukan nama dan alamat (pisahkan dengan spasi): ")
+	var (
+		name3    string
+		address1 string
+	)
+	fmt.Scan(&name3, &address1)
+	fmt.Printf("Nama: %s, Alamat: %s\n", name3, address1)
+
+	// menghitung luas dan keliling persegi panjang
+	fmt.Println("Selamat datang di program menghitung luas dan keliling persegi panjang")
+	fmt.Println("Masukan panjang dan lebar (pisahkan dengan spasi): ")
+	var (
+		w1, l1 int
+	)
+	fmt.Scan(&w1, &l1)
+	areaRectangle := mathutils.AreaRectangle(w1, l1)
+	perimeterRectangle := mathutils.PerimeterRectangle(w1, l1)
+
+	fmt.Printf("Luas persegi panjang: %d\n", areaRectangle)
+	fmt.Printf("Keliling persegi panjang: %d\n", perimeterRectangle)
 }
