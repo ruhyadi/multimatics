@@ -165,4 +165,18 @@ func main() {
 		Scores:  []int{90, 80, 70},
 	}
 	fmt.Println(persons3)
+
+	// variadic function
+	total := sumVariadic(1, 2, 3, 4, 5)
+	fmt.Println(total)
+
+}
+
+// variadic function
+func sumVariadic(numbers ...int) int {
+	total := 0
+	for _, number := range numbers {
+		total += number
+	}
+	return total
 }
