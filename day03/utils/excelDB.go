@@ -155,6 +155,11 @@ func Csv() error {
 		}
 	}
 
+	err = file.Sync()
+	if err != nil {
+		return fmt.Errorf("error syncing file: %s", err)
+	}
+
 	log.Println("Data has been written to csv file")
 	t1 := time.Now()
 
