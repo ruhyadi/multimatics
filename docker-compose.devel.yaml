@@ -23,6 +23,18 @@ services:
     networks:
       - multimatics-devel-network
 
+  multimatics-mysql:
+    container_name: multimatics-mysql
+    image: mysql:8-debian
+    restart: always
+    env_file: .env
+    ports:
+      - ${MYSQL_PORT:-3306}:${MYSQL_PORT:-3306}
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      - multimatics-devel-network
+
 networks:
   multimatics-devel-network:
     name: multimatics-devel-network
