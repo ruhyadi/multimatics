@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"sync"
+	"time"
 
 	"github.com/ruhyadi/multimatics/db"
 	"github.com/tealeg/xlsx"
@@ -65,6 +66,8 @@ func TulisDB() {
 }
 
 func BacaDB() error {
+	t0 := time.Now()
+
 	db, _ := db.ConnectMySQL()
 	rows, err := db.Query("SELECT ID, INITIATOR_REF_NO, SYS_REF_NO, AMOUNT FROM fortraining")
 	if err != nil {
@@ -102,12 +105,15 @@ func BacaDB() error {
 		row.AddCell().Value = amount
 	}
 
-	err = file.Save("../assets/forTrainingFromDB.xlsx")
+	err = file.Save("../tmp/forTrainingFromDB.xlsx")
 	if err != nil {
 		return fmt.Errorf("error saving file: %s", err)
 	}
 
 	log.Println("Data has been written to excel file")
+
+	t1 := time.Now()
+	log.Printf("The query took %v to run\n", t1.Sub(t0))
 
 	return nil
 }
