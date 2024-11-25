@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"log"
+	"os"
 	"sync"
 	"time"
 
@@ -113,6 +114,50 @@ func BacaDB() error {
 	log.Println("Data has been written to excel file")
 
 	t1 := time.Now()
+	log.Printf("The query took %v to run\n", t1.Sub(t0))
+
+	return nil
+}
+
+func Csv() error {
+	t0 := time.Now()
+	db, _ := db.ConnectMySQL()
+	rows, err := db.Query("SELECT ID, INITIATOR_REF_NO, SYS_REF_NO, AMOUNT FROM fortraining")
+	if err != nil {
+		log.Fatalf("Error querying database: %s", err)
+	}
+	defer rows.Close()
+
+	file, err := os.Create("../tmp/forTrainingFromDB.csv")
+	if err != nil {
+		return fmt.Errorf("error creating file: %s", err)
+	}
+	defer file.Close()
+
+	// write header
+	_, err = file.WriteString("ID,INITIATOR_REF_NO,SYS_REF_NO,AMOUNT\n")
+	if err != nil {
+		return fmt.Errorf("error writing header: %s", err)
+	}
+
+	// loop through the rows
+	for rows.Next() {
+		var id, initiatorRefNo, sysRefNo, amount string
+
+		err := rows.Scan(&id, &initiatorRefNo, &sysRefNo, &amount)
+		if err != nil {
+			return fmt.Errorf("error scanning rows: %s", err)
+		}
+
+		_, err = file.WriteString(fmt.Sprintf("%s,%s,%s,%s\n", id, initiatorRefNo, sysRefNo, amount))
+		if err != nil {
+			return fmt.Errorf("error writing rows: %s", err)
+		}
+	}
+
+	log.Println("Data has been written to csv file")
+	t1 := time.Now()
+
 	log.Printf("The query took %v to run\n", t1.Sub(t0))
 
 	return nil

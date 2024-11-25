@@ -51,5 +51,6 @@ func main() {
 
 	// insert data to db
 	// utils.TulisDB()
-	utils.BacaDB()
+	// utils.BacaDB()
+	utils.Csv()
 }
