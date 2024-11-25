@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"log"
 	"sync"
 
@@ -61,4 +62,52 @@ func TulisDB() {
 	wg.Wait()
 
 	log.Println("Data has been written to database")
+}
+
+func BacaDB() error {
+	db, _ := db.ConnectMySQL()
+	rows, err := db.Query("SELECT ID, INITIATOR_REF_NO, SYS_REF_NO, AMOUNT FROM fortraining")
+	if err != nil {
+		log.Fatalf("Error querying database: %s", err)
+	}
+	defer rows.Close()
+
+	// create a new excel file
+	file := xlsx.NewFile()
+	sheet, err := file.AddSheet("Sheet1")
+	if err != nil {
+		return fmt.Errorf("error creating new sheet: %s", err)
+	}
+
+	// create excel header
+	header := sheet.AddRow()
+	header.AddCell().Value = "ID"
+	header.AddCell().Value = "INITIATOR_REF_NO"
+	header.AddCell().Value = "SYS_REF_NO"
+	header.AddCell().Value = "AMOUNT"
+
+	// loop through the rows
+	for rows.Next() {
+		var id, initiatorRefNo, sysRefNo, amount string
+
+		err := rows.Scan(&id, &initiatorRefNo, &sysRefNo, &amount)
+		if err != nil {
+			return fmt.Errorf("error scanning rows: %s", err)
+		}
+
+		row := sheet.AddRow()
+		row.AddCell().Value = id
+		row.AddCell().Value = initiatorRefNo
+		row.AddCell().Value = sysRefNo
+		row.AddCell().Value = amount
+	}
+
+	err = file.Save("../assets/forTrainingFromDB.xlsx")
+	if err != nil {
+		return fmt.Errorf("error saving file: %s", err)
+	}
+
+	log.Println("Data has been written to excel file")
+
+	return nil
 }
