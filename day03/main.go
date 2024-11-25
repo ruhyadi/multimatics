@@ -17,5 +17,6 @@ func main() {
 	// utils.JalanAntrianWG()
 	// utils.JalanAntrianChannel()
 	// utils.JalanAntrianGabungan()
-	utils.ChannelExample001()
+	// utils.ChannelExample001()
+	utils.Baca()
 }
