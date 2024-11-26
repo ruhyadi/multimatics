@@ -40,6 +40,7 @@ func main() {
 	r.POST("/register", controllers.Register)
 	r.GET("/users", controllers.ListUser)
 	r.GET("/users/:id", controllers.DetailUser)
+	r.DELETE("/users/:id", controllers.DeleteUser)
 
 	// swagger route
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

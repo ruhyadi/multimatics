@@ -56,6 +56,22 @@ paths:
       tags:
       - users
   /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user by their ID, including their photo file if it exists
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Delete a user
+      tags:
+      - users
     get:
       consumes:
       - application/json

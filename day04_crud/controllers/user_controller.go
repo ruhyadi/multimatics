@@ -3,6 +3,7 @@ package controllers
 import (
 	"database/sql"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -130,4 +131,43 @@ func DetailUser(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"result": user})
+}
+
+// DeleteUser handles the deletion of a user by their ID.
+//
+// @Summary Delete a user
+// @Description Delete a user by their ID, including their photo file if it exists
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param id path string true "User ID"
+// @Router /users/{id} [delete]
+func DeleteUser(c *gin.Context) {
+	id := c.Param("id")
+
+	// delete the photo file
+	var photo string
+	err := db.QueryRow("SELECT photo FROM users WHERE id = ?", id).Scan(&photo)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal mengambil data user"})
+		return
+	}
+
+	if photo != "" {
+		err = os.Remove(photo)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal menghapus file foto"})
+			return
+		}
+	}
+
+	// remove user from database
+	_, err = db.Exec("DELETE FROM users WHERE id = ?", id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal menghapus user"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Berhasil menghapus user"})
+
 }
