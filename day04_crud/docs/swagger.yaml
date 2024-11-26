@@ -35,6 +35,81 @@ paths:
       summary: User login
       tags:
       - users
+  /protected/users:
+    get:
+      description: Get a list of all users from the database
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: List all users
+      tags:
+      - users
+  /protected/users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user by their ID, including their photo file if it exists
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Delete a user
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Get details of a user by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Get user details
+      tags:
+      - users
+    patch:
+      consumes:
+      - multipart/form-data
+      description: Update a user's name and optionally their photo
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: User Name
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: User Photo
+        in: formData
+        name: photo
+        type: file
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Update a user's information
+      tags:
+      - users
   /register:
     post:
       consumes:
@@ -66,73 +141,6 @@ paths:
       - application/json
       responses: {}
       summary: Register a new user
-      tags:
-      - users
-  /users:
-    get:
-      description: Get a list of all users from the database
-      produces:
-      - application/json
-      responses: {}
-      summary: List all users
-      tags:
-      - users
-  /users/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete a user by their ID, including their photo file if it exists
-      parameters:
-      - description: User ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses: {}
-      summary: Delete a user
-      tags:
-      - users
-    get:
-      consumes:
-      - application/json
-      description: Get details of a user by ID
-      parameters:
-      - description: User ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses: {}
-      summary: Get user details
-      tags:
-      - users
-    patch:
-      consumes:
-      - multipart/form-data
-      description: Update a user's name and optionally their photo
-      parameters:
-      - description: User ID
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: User Name
-        in: formData
-        name: name
-        required: true
-        type: string
-      - description: User Photo
-        in: formData
-        name: photo
-        type: file
-      produces:
-      - application/json
-      responses: {}
-      summary: Update a user's information
       tags:
       - users
 swagger: "2.0"

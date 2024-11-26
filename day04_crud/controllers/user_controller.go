@@ -75,7 +75,8 @@ func Register(c *gin.Context) {
 // @Description Get a list of all users from the database
 // @Tags users
 // @Produce json
-// @Router /users [get]
+// @Security BearerAuth
+// @Router /protected/users [get]
 func ListUser(c *gin.Context) {
 	rows, err := db.Query("SELECT id, name, username, photo FROM users")
 	if err != nil {
@@ -112,8 +113,9 @@ func ListUser(c *gin.Context) {
 // @Tags users
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param id path string true "User ID"
-// @Router /users/{id} [get]
+// @Router /protected/users/{id} [get]
 func DetailUser(c *gin.Context) {
 	id := c.Param("id")
 
@@ -141,8 +143,9 @@ func DetailUser(c *gin.Context) {
 // @Tags users
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param id path string true "User ID"
-// @Router /users/{id} [delete]
+// @Router /protected/users/{id} [delete]
 func DeleteUser(c *gin.Context) {
 	id := c.Param("id")
 
@@ -179,10 +182,11 @@ func DeleteUser(c *gin.Context) {
 // @Tags users
 // @Accept multipart/form-data
 // @Produce json
+// @Security BearerAuth
 // @Param id path string true "User ID"
 // @Param name formData string true "User Name"
 // @Param photo formData file false "User Photo"
-// @Router /users/{id} [patch]
+// @Router /protected/users/{id} [patch]
 func UpdateUser(c *gin.Context) {
 	id := c.Param("id")
 
