@@ -171,3 +171,66 @@ func DeleteUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Berhasil menghapus user"})
 
 }
+
+// UpdateUser godoc
+// @Summary Update a user's information
+// @Description Update a user's name and optionally their photo
+// @Tags users
+// @Accept multipart/form-data
+// @Produce json
+// @Param id path string true "User ID"
+// @Param name formData string true "User Name"
+// @Param photo formData file false "User Photo"
+// @Router /users/{id} [patch]
+func UpdateUser(c *gin.Context) {
+	id := c.Param("id")
+
+	// get the name
+	name := c.PostForm("name")
+	if name == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Name is required"})
+		return
+	}
+
+	// check if user exist
+	var existingPhoto string
+	err := db.QueryRow("SELECT photo FROM users WHERE id = ?", id).Scan(&existingPhoto)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user data"})
+		return
+	}
+
+	// upload new photo
+	file, err := c.FormFile("photo")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Gagal membaca file foto"})
+		return
+	}
+	newPhotoFilename := "./uploads/" + file.Filename
+	if err := c.SaveUploadedFile(file, newPhotoFilename); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal menyimpan file foto"})
+		return
+	}
+
+	// update user data
+	if newPhotoFilename != "" {
+		_, err = db.Exec("UPDATE users SET name = ?, photo = ? WHERE id = ?", name, newPhotoFilename, id)
+	} else {
+		_, err = db.Exec("UPDATE users SET name = ? WHERE id = ?", name, id)
+	}
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user data"})
+		return
+	}
+
+	// remove existing photo
+	if existingPhoto != "" {
+		err = os.Remove(existingPhoto)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to remove existing photo"})
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "User data updated"})
+}
