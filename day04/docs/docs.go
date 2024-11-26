@@ -24,6 +24,32 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/export": {
+            "get": {
+                "description": "Export transaction data to XLSX and TXT files",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "transactions"
+                ],
+                "summary": "Export transaction data",
+                "responses": {
+                    "200": {
+                        "description": "Data exported successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Error querying database\" or \"Error scanning rows\" or \"Error saving file\" or \"Error creating file",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/upload": {
             "post": {
                 "description": "Upload a file to the server",

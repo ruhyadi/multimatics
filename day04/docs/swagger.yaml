@@ -13,6 +13,24 @@ info:
   title: Gin Swagger Example API
   version: "1.0"
 paths:
+  /export:
+    get:
+      description: Export transaction data to XLSX and TXT files
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Data exported successfully
+          schema:
+            type: string
+        "500":
+          description: Error querying database" or "Error scanning rows" or "Error
+            saving file" or "Error creating file
+          schema:
+            type: string
+      summary: Export transaction data
+      tags:
+      - transactions
   /upload:
     post:
       consumes:

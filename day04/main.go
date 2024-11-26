@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
+	"os"
 	"sync"
 	"time"
 
@@ -35,6 +36,7 @@ var db *sql.DB
 
 func main() {
 	r := gin.Default()
+	r.Static("/assets", "../tmp")
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
@@ -50,6 +52,7 @@ func main() {
 
 	// route
 	r.POST("/upload", UploadFile)
+	r.GET("/export", ExportData)
 
 	r.Run(":8080")
 }
@@ -151,4 +154,92 @@ func UploadFile(c *gin.Context) {
 
 	wg.Wait()
 	c.String(http.StatusOK, "File uploaded successfully")
+}
+
+// ExportData handles the export of transaction data to both an XLSX file and a TXT file.
+// @Summary Export transaction data
+// @Description Export transaction data to XLSX and TXT files
+// @Tags transactions
+// @Produce plain
+// @Success 200 {string} string "Data exported successfully"
+// @Failure 500 {string} string "Error querying database" or "Error scanning rows" or "Error saving file" or "Error creating file"
+// @Router /export [get]
+func ExportData(c *gin.Context) {
+	rows, err := db.Query("SELECT ID, INITIATOR_REF_NO, SYS_REF_NO, HOST_TRX_DT FROM transactions")
+	if err != nil {
+		c.String(http.StatusInternalServerError, "Error querying database: %s", err)
+		return
+	}
+	defer rows.Close()
+
+	var transactions []Transaction
+	for rows.Next() {
+		var t Transaction
+
+		err := rows.Scan(&t.ID, &t.INITIATOR_REF_NO, &t.SYS_REF_NO, &t.HOST_TRX_DT)
+		if err != nil {
+			c.String(http.StatusInternalServerError, "Error scanning rows: %s", err)
+			return
+		}
+
+		transactions = append(transactions, t)
+	}
+
+	// write to xlsx file
+	var wg sync.WaitGroup
+	wg.Add(2)
+
+	// goroutine to write to xlsx file
+	go func() {
+		defer wg.Done()
+		file := xlsx.NewFile()
+		sheet, _ := file.AddSheet("Sheet1")
+
+		// create header
+		header := sheet.AddRow()
+		headerCells := []string{"ID", "INITIATOR_REF_NO", "SYS_REF_NO", "HOST_TRX_DT"}
+		style := xlsx.NewStyle()
+		style.Font.Bold = true
+		style.Alignment.Horizontal = "center"
+
+		for _, h := range headerCells {
+			cell := header.AddCell()
+			cell.Value = h
+			cell.SetStyle(style)
+		}
+
+		// add data rows
+		for _, t := range transactions {
+			row := sheet.AddRow()
+			row.AddCell().SetString(t.ID)
+			row.AddCell().SetString(t.INITIATOR_REF_NO)
+			row.AddCell().SetString(t.SYS_REF_NO)
+			row.AddCell().SetString(t.HOST_TRX_DT.Format("2006-01-02 15:04:05"))
+		}
+		err := file.Save("../tmp/transactions.xlsx")
+		if err != nil {
+			log.Fatal("Error saving file: ", err)
+		}
+	}()
+
+	// goroutine to write to txt
+	go func() {
+		defer wg.Done()
+		file, err := os.Create("../tmp/transactions.txt")
+		if err != nil {
+			log.Fatal("Error creating file: ", err)
+		}
+		defer file.Close()
+
+		// add header
+		file.WriteString("ID,INITIATOR_REF_NO,SYS_REF_NO,HOST_TRX_DT\n")
+
+		// add data rows
+		for _, t := range transactions {
+			file.WriteString(t.ID + "," + t.INITIATOR_REF_NO + "," + t.SYS_REF_NO + "," + t.HOST_TRX_DT.Format("2006-01-02 15:04:05") + "\n")
+		}
+	}()
+
+	wg.Wait()
+	c.String(http.StatusOK, "Data exported successfully")
 }
