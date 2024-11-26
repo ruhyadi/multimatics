@@ -103,3 +103,31 @@ func ListUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"results": users})
 }
+
+// DetailUser godoc
+// @Summary Get user details
+// @Description Get details of a user by ID
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param id path string true "User ID"
+// @Router /users/{id} [get]
+func DetailUser(c *gin.Context) {
+	id := c.Param("id")
+
+	var name, username, photo string
+	err := db.QueryRow("SELECT name, username, photo FROM users WHERE id = ?", id).Scan(&name, &username, &photo)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal mengambil data user"})
+		return
+	}
+
+	user := map[string]interface{}{
+		"id":       id,
+		"name":     name,
+		"username": username,
+		"photo":    photo,
+	}
+
+	c.JSON(http.StatusOK, gin.H{"result": user})
+}
