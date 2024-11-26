@@ -1,0 +1,61 @@
+basePath: /
+host: localhost:8081
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a simple CRUD API with Gin, JWT, and MySQL.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Simple CRUD API
+  version: "1.0"
+paths:
+  /register:
+    post:
+      consumes:
+      - multipart/form-data
+      description: This endpoint registers a new user by accepting their name, username,
+        password, and photo.
+      parameters:
+      - description: Name of the user
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: Username of the user
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: Password of the user
+        in: formData
+        name: password
+        required: true
+        type: string
+      - description: Photo of the user
+        in: formData
+        name: photo
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Register a new user
+      tags:
+      - users
+swagger: "2.0"
