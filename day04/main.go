@@ -175,11 +175,17 @@ func ExportData(c *gin.Context) {
 	var transactions []Transaction
 	for rows.Next() {
 		var t Transaction
+		var hostTrxDt []byte
 
-		err := rows.Scan(&t.ID, &t.INITIATOR_REF_NO, &t.SYS_REF_NO, &t.HOST_TRX_DT)
+		err := rows.Scan(&t.ID, &t.INITIATOR_REF_NO, &t.SYS_REF_NO, &hostTrxDt)
 		if err != nil {
 			c.String(http.StatusInternalServerError, "Error scanning rows: %s", err)
 			return
+		}
+
+		t.HOST_TRX_DT, err = time.Parse("2006-01-02 15:04:05", string(hostTrxDt))
+		if err != nil {
+			log.Println("Error parsing date: ", err)
 		}
 
 		transactions = append(transactions, t)
