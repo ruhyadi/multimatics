@@ -24,12 +24,6 @@ func InitDB(database *sql.DB) {
 // @Param username formData string true "Username of the user"
 // @Param password formData string true "Password of the user"
 // @Param photo formData file true "Photo of the user"
-// @Success 200 {object} map[string]string{"message": "Berhasil mendaftar"}
-// @Failure 400 {object} map[string]string{"error": "Gagal membaca file foto"}
-// @Failure 400 {object} map[string]string{"error": "Semua form harus diisi"}
-// @Failure 400 {object} map[string]string{"error": "Gagal menyimpan file foto"}
-// @Failure 500 {object} map[string]string{"error": "Gagal mengenkripsi password"}
-// @Failure 500 {object} map[string]string{"error": "Gagal menyimpan user"}
 // @Router /register [post]
 func Register(c *gin.Context) {
 	name := c.PostForm("name")
@@ -72,4 +66,40 @@ func Register(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Berhasil mendaftar"})
+}
+
+// ListUser godoc
+// @Summary List all users
+// @Description Get a list of all users from the database
+// @Tags users
+// @Produce json
+// @Router /users [get]
+func ListUser(c *gin.Context) {
+	rows, err := db.Query("SELECT id, name, username, photo FROM users")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal mengambil data user"})
+		return
+	}
+	defer rows.Close()
+
+	var users []map[string]interface{}
+	for rows.Next() {
+		var id int
+		var name, username, photo string
+		err = rows.Scan(&id, &name, &username, &photo)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal membaca data user"})
+			return
+		}
+
+		user := map[string]interface{}{
+			"id":       id,
+			"name":     name,
+			"username": username,
+			"photo":    photo,
+		}
+		users = append(users, user)
+	}
+
+	c.JSON(http.StatusOK, gin.H{"results": users})
 }

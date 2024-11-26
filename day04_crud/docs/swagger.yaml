@@ -42,20 +42,17 @@ paths:
         type: file
       produces:
       - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
+      responses: {}
       summary: Register a new user
+      tags:
+      - users
+  /users:
+    get:
+      description: Get a list of all users from the database
+      produces:
+      - application/json
+      responses: {}
+      summary: List all users
       tags:
       - users
 swagger: "2.0"

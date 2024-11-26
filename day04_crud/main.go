@@ -38,6 +38,7 @@ func main() {
 
 	// route
 	r.POST("/register", controllers.Register)
+	r.GET("/users", controllers.ListUser)
 
 	// swagger route
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
