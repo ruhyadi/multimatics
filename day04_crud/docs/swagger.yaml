@@ -13,6 +13,28 @@ info:
   title: Simple CRUD API
   version: "1.0"
 paths:
+  /login:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: Authenticates a user and returns a JWT token if successful.
+      parameters:
+      - description: Username
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: Password
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: User login
+      tags:
+      - users
   /register:
     post:
       consumes:

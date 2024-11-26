@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/ruhyadi/multimatics/day04_crud/auth"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -233,4 +234,47 @@ func UpdateUser(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "User data updated"})
+}
+
+// Login handles user login requests.
+// @Summary User login
+// @Description Authenticates a user and returns a JWT token if successful.
+// @Tags users
+// @Accept application/x-www-form-urlencoded
+// @Produce application/json
+// @Param username formData string true "Username"
+// @Param password formData string true "Password"
+// @Router /login [post]
+func Login(c *gin.Context) {
+	username := c.PostForm("username")
+	password := c.PostForm("password")
+
+	// simple validation
+	if username == "" || password == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Username and password are required"})
+		return
+	}
+
+	// check user in database
+	var hashedPassword string
+	err := db.QueryRow("SELECT password FROM users WHERE username = ?", username).Scan(&hashedPassword)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username"})
+		return
+	}
+
+	// password verification
+	if err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password)); err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid password"})
+		return
+	}
+
+	// generate token
+	token, err := auth.GenerateToken(username)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"token": token})
 }
