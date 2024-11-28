@@ -10,7 +10,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ products }) => {
     <table className="min-w-full bg-white">
       <thead>
         <tr>
-          <th className="py-2 px-4 w-16"></th>
+          <th className="py-2"></th>
           <th className="py-2">Name</th>
           <th className="py-2">Price</th>
           <th className="py-2">Description</th>
@@ -23,7 +23,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ products }) => {
               <img
                 src={product.imageUri}
                 alt={product.name}
-                className="w-full h-16 object-contain"
+                className="w-full h-64 object-contain"
               />
             </td>
             <td className="py-2 px-4">{product.name}</td>
