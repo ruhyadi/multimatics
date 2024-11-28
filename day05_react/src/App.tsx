@@ -10,6 +10,7 @@ function App() {
         links={[
           { name: "Home", url: "/" },
           { name: "Product", url: "/product" },
+          { name: "Product Data", url: "/product-data" },
           { name: "About", url: "/about" },
         ]}
       />
