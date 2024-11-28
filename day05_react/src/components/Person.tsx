@@ -1,7 +1,14 @@
-const Person = () => {
+export type PersonProps = {
+  name: string;
+  address: string;
+};
+
+const Person: React.FC<PersonProps> = ({ name, address }) => {
   return (
     <div>
-      <h1>Person</h1>
+      <p>
+        Hi my name is {name}. I'm from {address}
+      </p>
     </div>
   );
 };
