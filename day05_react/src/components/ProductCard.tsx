@@ -1,4 +1,12 @@
 import React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export type ProductCardProps = {
   name: string;
@@ -14,18 +22,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
   imageUri,
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4 transform transition-transform hover:scale-105 hover:shadow-xl">
-      <img
-        src={imageUri}
-        alt={name}
-        className="w-full h-64 object-cover rounded-t-lg"
-      />
-      <div className="mt-4">
-        <div className="font-bold text-xl">{name}</div>
-        <div className="text-gray-500">Rp{price.toLocaleString("id-ID")}</div>
-        <div className="text-gray-600">{description}</div>
-      </div>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>{name}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <img src={imageUri} alt={name} className="w-full" />
+      </CardContent>
+      <CardFooter>
+        <div className="flex-1 text-xl font-bold">${price}</div>
+        <button className="btn btn-primary">Add to Cart</button>
+      </CardFooter>
+    </Card>
   );
 };
 
