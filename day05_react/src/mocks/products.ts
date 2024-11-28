@@ -2,34 +2,81 @@ import { ProductCardProps } from "../components/ProductCard";
 
 const products: ProductCardProps[] = [
   {
-    name: "Product 1",
+    name: "Basic Tee",
     price: 10000,
-    description: "Description 1",
-    imageUri: "https://via.placeholder.com/300",
+    description: "Black",
+    imageUri:
+      "https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-01.jpg",
   },
   {
-    name: "Product 2",
-    price: 20000,
-    description: "Description 2",
-    imageUri: "https://via.placeholder.com/300",
+    name: "Basic Tee",
+    price: 10000,
+    description: "Black",
+    imageUri:
+      "https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-02.jpg",
   },
   {
-    name: "Product 3",
-    price: 30000,
-    description: "Description 3",
-    imageUri: "https://via.placeholder.com/300",
+    name: "Basic Tee",
+    price: 10000,
+    description: "Black",
+    imageUri:
+      "https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-03.jpg",
   },
   {
-    name: "Product 4",
-    price: 40000,
-    description: "Description 4",
-    imageUri: "https://via.placeholder.com/300",
+    name: "Basic Tee",
+    price: 10000,
+    description: "Black",
+    imageUri:
+      "https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-04.jpg",
   },
   {
-    name: "Product 5",
-    price: 50000,
-    description: "Description 5",
-    imageUri: "https://via.placeholder.com/300",
+    name: "Basic Tee",
+    price: 10000,
+    description: "Black",
+    imageUri:
+      "https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-02.jpg",
+  },
+  {
+    name: "Basic Tee",
+    price: 10000,
+    description: "Black",
+    imageUri:
+      "https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-03.jpg",
+  },
+  {
+    name: "Basic Tee",
+    price: 10000,
+    description: "Black",
+    imageUri:
+      "https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-02.jpg",
+  },
+  {
+    name: "Basic Tee",
+    price: 10000,
+    description: "Black",
+    imageUri:
+      "https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-03.jpg",
+  },
+  {
+    name: "Basic Tee",
+    price: 10000,
+    description: "Black",
+    imageUri:
+      "https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-04.jpg",
+  },
+  {
+    name: "Basic Tee",
+    price: 10000,
+    description: "Black",
+    imageUri:
+      "https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-02.jpg",
+  },
+  {
+    name: "Basic Tee",
+    price: 10000,
+    description: "Black",
+    imageUri:
+      "https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-03.jpg",
   },
 ];
 
