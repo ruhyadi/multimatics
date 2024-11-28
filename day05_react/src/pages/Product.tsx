@@ -1,10 +1,13 @@
 import React from "react";
+import ProductCard from "../components/ProductCard";
+import products from "../mocks/products";
 
 const Product: React.FC = () => {
   return (
-    <div>
-      <h1>Product</h1>
-      <p>This is the product page.</p>
+    <div className="container mx-auto grid grid-cols-4 gap-4">
+      {products.map((product, index) => (
+        <ProductCard key={index} {...product} />
+      ))}
     </div>
   );
 };

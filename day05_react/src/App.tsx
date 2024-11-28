@@ -13,7 +13,9 @@ function App() {
           { name: "About", url: "/about" },
         ]}
       />
-      <Outlet />
+      <div className="mt-20">
+        <Outlet />
+      </div>
     </>
   );
 }
