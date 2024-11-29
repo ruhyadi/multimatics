@@ -28,9 +28,13 @@ const ProductTable: React.FC<ProductTableProps> = ({ products }) => {
             </td>
             <td className="py-2 px-4">{product.name}</td>
             <td className="py-2 px-4">
-              Rp{product.price.toLocaleString("id-ID")}
+              ${product.price.toLocaleString("id-ID")}
             </td>
-            <td className="py-2 px-4">{product.description}</td>
+            <td className="py-2 px-4">
+              {product.description.length > 100
+                ? product.description.slice(0, 100) + "..."
+                : product.description}
+            </td>
           </tr>
         ))}
       </tbody>

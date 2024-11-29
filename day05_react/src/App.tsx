@@ -11,6 +11,7 @@ function App() {
           { name: "Home", url: "/" },
           { name: "Product", url: "/product" },
           { name: "Product Data", url: "/product-data" },
+          { name: "Graph", url: "/graph" },
           { name: "About", url: "/about" },
         ]}
       />

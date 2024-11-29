@@ -8,6 +8,8 @@ import Home from "./pages/Home.tsx";
 import About from "./pages/About.tsx";
 import Product from "./pages/Product.tsx";
 import ProductData from "./pages/ProductData.tsx";
+import Graphs from "./pages/Graph.tsx";
+import Details from "./pages/Details.tsx";
 
 const router = createBrowserRouter([
   {
@@ -28,8 +30,17 @@ const router = createBrowserRouter([
         element: <ProductData />,
       },
       {
+        path: "/graph",
+        element: <Graphs />,
+      },
+      {
         path: "/about",
         element: <About />,
+      },
+      {
+        // path: "/product/:id",
+        path: "/product/:id",
+        element: <Details />,
       },
     ],
   },
