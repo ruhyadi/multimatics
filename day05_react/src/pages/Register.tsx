@@ -16,7 +16,6 @@ const Register: React.FC = () => {
     reset,
     formState: { errors },
   } = useForm<RegisterForm>();
-  //   const password = watch("password");
 
   const onSubmit = (data: RegisterForm) => {
     console.log(data);
@@ -30,10 +29,11 @@ const Register: React.FC = () => {
           Create your account
         </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* username */}
           <div>
             <label
               htmlFor="username"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 text-left"
             >
               Username
             </label>
@@ -48,10 +48,11 @@ const Register: React.FC = () => {
               </p>
             )}
           </div>
+          {/* email */}
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 text-left"
             >
               Email
             </label>
@@ -67,10 +68,11 @@ const Register: React.FC = () => {
               </p>
             )}
           </div>
+          {/* password */}
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 text-left"
             >
               Password
             </label>
@@ -86,6 +88,31 @@ const Register: React.FC = () => {
               </p>
             )}
           </div>
+          {/* confirm password */}
+          <div>
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-700 text-left"
+            >
+              Confirm Password
+            </label>
+            <input
+              id="confirmPassword"
+              type="password"
+              {...register("confirmPassword", {
+                required: "Confirm Password is required",
+                validate: (value) =>
+                  value === watch("password") || "The passwords do not match",
+              })}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.confirmPassword.message}
+              </p>
+            )}
+          </div>
+          {/* submit button */}
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
