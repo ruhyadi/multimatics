@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 type RegisterForm = {
   username: string;
   email: string;
+  phoneNumber: string;
   password: string;
   confirmPassword: string;
 };
@@ -71,6 +72,40 @@ const Register: React.FC = () => {
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">
                 {errors.email.message}
+              </p>
+            )}
+          </div>
+          {/* phone number */}
+          <div>
+            <label
+              htmlFor="phoneNumber"
+              className="block text-sm font-medium text-gray-700 text-left"
+            >
+              Phone Number
+            </label>
+            <input
+              id="phoneNumber"
+              type="tel"
+              {...register("phoneNumber", {
+                required: "Phone Number is required",
+                pattern: {
+                  value: /^[0-9]{10,12}$/,
+                  message: "Invalid phone number",
+                },
+                minLength: {
+                  value: 10,
+                  message: "Phone number must be at least 10 characters",
+                },
+                maxLength: {
+                  value: 12,
+                  message: "Phone number must be at most 12 characters",
+                },
+              })}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+            {errors.phoneNumber && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.phoneNumber.message}
               </p>
             )}
           </div>
