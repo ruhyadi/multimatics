@@ -14,6 +14,7 @@ function App() {
           { name: "Graph", url: "/graph" },
           { name: "About", url: "/about" },
           { name: "Register", url: "/register" },
+          { name: "Camera", url: "/camera" },
         ]}
       />
       <div className="mt-20">

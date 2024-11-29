@@ -11,6 +11,7 @@ import ProductData from "./pages/ProductData.tsx";
 import Graphs from "./pages/Graph.tsx";
 import Details from "./pages/Details.tsx";
 import Register from "./pages/Register.tsx";
+import Camera from "./pages/Camera.tsx";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/camera",
+        element: <Camera />,
       },
     ],
   },
