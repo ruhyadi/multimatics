@@ -13,6 +13,7 @@ function App() {
           { name: "Product Data", url: "/product-data" },
           { name: "Graph", url: "/graph" },
           { name: "About", url: "/about" },
+          { name: "Register", url: "/register" },
         ]}
       />
       <div className="mt-20">

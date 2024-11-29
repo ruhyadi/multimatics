@@ -10,6 +10,7 @@ import Product from "./pages/Product.tsx";
 import ProductData from "./pages/ProductData.tsx";
 import Graphs from "./pages/Graph.tsx";
 import Details from "./pages/Details.tsx";
+import Register from "./pages/Register.tsx";
 
 const router = createBrowserRouter([
   {
@@ -38,9 +39,12 @@ const router = createBrowserRouter([
         element: <About />,
       },
       {
-        // path: "/product/:id",
         path: "/product/:id",
         element: <Details />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
     ],
   },
