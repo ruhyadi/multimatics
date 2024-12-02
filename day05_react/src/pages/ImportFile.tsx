@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Spinner from "../components/Spinner";
+import axios from "axios";
 
 const ImportFile = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,6 +15,29 @@ const ImportFile = () => {
 
   const onSubmit = async (data: any) => {
     console.log(data);
+    setIsLoading(true);
+    const fData = new FormData();
+
+    Object.keys(data).forEach((key) => {
+      if (key === "file") {
+        fData.append(key, data[key][0]);
+      } else {
+        fData.append(key, data[key]);
+      }
+    });
+
+    const BASE_URL = "http://localhost:8080";
+    axios
+      .post(`${BASE_URL}/upload`, fData)
+      .then((response) => {
+        const { data } = response;
+        alert(data);
+        reset();
+      })
+      .catch((error) => {
+        alert(error);
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
