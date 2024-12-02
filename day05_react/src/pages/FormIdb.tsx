@@ -63,6 +63,7 @@ const FormIdb = () => {
     <div className="max-w-md mx-auto mt-10 p-5 bg-white shadow-md rounded-md">
       <h1 className="text-2xl font-bold mb-5">Form with IndexedDB</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {/* name */}
         <div>
           <label
             htmlFor="name"
@@ -77,6 +78,7 @@ const FormIdb = () => {
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
+        {/* email */}
         <div>
           <label
             htmlFor="email"
@@ -88,6 +90,36 @@ const FormIdb = () => {
             type="email"
             id="email"
             {...register("email")}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          />
+        </div>
+        {/* phone number */}
+        <div>
+          <label
+            htmlFor="phone"
+            className="text-left block text-sm font-medium text-gray-700"
+          >
+            Phone
+          </label>
+          <input
+            type="tel"
+            id="phone"
+            {...register("phone")}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          />
+        </div>
+        {/* photo file */}
+        <div>
+          <label
+            htmlFor="photo"
+            className="text-left block text-sm font-medium text-gray-700"
+          >
+            Photo
+          </label>
+          <input
+            type="file"
+            id="photo"
+            {...register("photo")}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
