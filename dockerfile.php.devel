@@ -11,3 +11,6 @@ RUN npm install -g typescript
 
 # install laravel
 RUN composer global require laravel/installer
+
+# install php mysql with docker
+RUN docker-php-ext-install pdo_mysql
