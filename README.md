@@ -38,37 +38,3 @@ docker run --rm \
 You can replace `PROJECT_NAME` with your desired project name and `DEPS` with the dependencies you need for your project. 
 
 The available dependencies are `mysql`, `pgsql`, `redis`, `memcached`, `meilisearch`, `minio`, `mailhog`, and `selenium`.
-
-
-
-To start with, we need to pull the PHP devcontainer image by running the following command:
-
-```bash
-docker pull mcr.microsoft.com/devcontainers/php:8-bookworm
-```
-
-Please refer to the [github.com/devcontainers/images/tree](https://github.com/devcontainers/images/tree/main/src/php) for more information about the PHP devcontainer image.
-
-Next, we need to execute `composer` 
-
-```
-docker run \
-    --rm -it -v $(pwd):/app -w /app \
-    mcr.microsoft.com/devcontainers/php:8-bookworm bash
-```
-
-curl -s "https://laravel.build/example-app?with=mysql&devcontainer" | bash
-
-docker run --rm \
-    --pull=always \
-    -v "$(pwd)":/opt \
-    -w /opt \
-    laravelsail/php84-composer:latest \
-    bash -c "laravel new example-app1 --no-interaction && cd example-app1 && php ./artisan sail:install --with=mysql "
-
-docker run --rm \
-    --pull=always \
-    -v "$(pwd)":/opt \
-    -w /opt \
-    laravelsail/php84-composer:latest \
-    bash -c "laravel new $PROJECT_NAME --no-interaction && cd $PROJECT_NAME && php ./artisan sail:install --with=mysql"

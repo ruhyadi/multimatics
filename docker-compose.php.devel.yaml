@@ -1,6 +1,6 @@
 services:
-  multimatics-devel:
-    container_name: multimatics-devel
+  multimatics-php-devel:
+    container_name: multimatics-php-devel
     build:
       context: .
       dockerfile: dockerfile.php.devel

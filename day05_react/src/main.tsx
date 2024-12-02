@@ -12,6 +12,7 @@ import Graphs from "./pages/Graph.tsx";
 import Details from "./pages/Details.tsx";
 import Register from "./pages/Register.tsx";
 import Camera from "./pages/Camera.tsx";
+import FormIdb from "./pages/FormIdb.tsx";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "/camera",
         element: <Camera />,
+      },
+      {
+        path: "/form-idb",
+        element: <FormIdb />,
       },
     ],
   },

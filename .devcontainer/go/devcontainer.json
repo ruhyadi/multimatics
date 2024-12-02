@@ -1,6 +1,6 @@
 {
     "name": "multimatics-go-dev",
-    "service": "multimatics-devel",
+    "service": "multimatics-go-devel",
     "dockerComposeFile": "../../docker-compose.go.devel.yaml",
     "features": {
         "ghcr.io/devcontainers/features/docker-outside-of-docker": {}

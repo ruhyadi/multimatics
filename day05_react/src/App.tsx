@@ -15,6 +15,7 @@ function App() {
           { name: "About", url: "/about" },
           { name: "Register", url: "/register" },
           { name: "Camera", url: "/camera" },
+          { name: "FormIdb", url: "/form-idb" },
         ]}
       />
       <div className="mt-20">

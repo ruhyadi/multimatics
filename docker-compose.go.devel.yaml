@@ -1,6 +1,6 @@
 services:
-  multimatics-devel:
-    container_name: multimatics-devel
+  multimatics-go-devel:
+    container_name: multimatics-go-devel
     build:
       context: .
       dockerfile: dockerfile.go.devel
