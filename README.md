@@ -24,7 +24,7 @@ Next, press `CTRL + SHIFT + P` and type `Dev Container: Rebuild and Reopen in Co
 We'll use [Laravel Sail](https://laravel.com/docs/11.x/sail) to create devcontainer for our project. To start with, we need to create project directory by running the following command:
 
 ```bash
-export PROJECT_NAME=laravel001
+export PROJECT_NAME=laravel002
 export DEPS="mysql"
 docker run --rm \
     --pull=always \
