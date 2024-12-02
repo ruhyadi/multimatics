@@ -1,0 +1,129 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel001 Swagger",
+        "description": "This is a simple API for learning purpose",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/hallo": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get greeting message",
+                "operationId": "3876d7107905877e1d2fe2116b2675ac",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hallo, ini adalah response dari controller UserController"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Register a new user",
+                "operationId": "2f25885f3b6f61ca11724ec302d2e439",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nama": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "081234567890"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "confirm_password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data valid"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "ERROR"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "User",
+            "description": "User"
+        }
+    ]
+}
