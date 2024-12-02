@@ -3,7 +3,7 @@ services:
     container_name: multimatics-devel
     build:
       context: .
-      dockerfile: dockerfile.devel
+      dockerfile: dockerfile.go.devel
     volumes:
       - .:/home/root/workspace
     command: sleep infinity
