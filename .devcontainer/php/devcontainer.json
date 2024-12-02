@@ -1,7 +1,7 @@
 {
     "name": "multimatics-php-dev",
     "service": "multimatics-php-devel",
-    "remoteUser": "vscode",
+    "remoteUser": "root",
     "dockerComposeFile": "../../docker-compose.php.devel.yaml",
     "features": {
         "ghcr.io/devcontainers/features/docker-outside-of-docker": {}
