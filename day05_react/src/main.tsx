@@ -13,6 +13,8 @@ import Details from "./pages/Details.tsx";
 import Register from "./pages/Register.tsx";
 import Camera from "./pages/Camera.tsx";
 import FormIdb from "./pages/FormIdb.tsx";
+import ExportFile from "./pages/ExportFile.tsx";
+import ImportFile from "./pages/ImportFile.tsx";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +57,14 @@ const router = createBrowserRouter([
       {
         path: "/form-idb",
         element: <FormIdb />,
+      },
+      {
+        path: "/export-file",
+        element: <ExportFile />,
+      },
+      {
+        path: "/import-file",
+        element: <ImportFile />,
       },
     ],
   },

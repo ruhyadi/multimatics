@@ -52,12 +52,7 @@ func main() {
 	// r.PATCH("/users/:id", controllers.UpdateUser)
 
 	// swagger route
-	r.GET(
-		"/swagger/*any", 
-		ginSwagger.WrapHandler(swaggerFiles.Handler, ginSwagger.URL("/swagger/doc.json"), 
-		// ginSwagger.CustomWrapHandler("/swagger-custom.js")),
-		ginSwagger.CustomWrapHandler()
-	)
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// protected routes
 	protected := r.Group("/protected")

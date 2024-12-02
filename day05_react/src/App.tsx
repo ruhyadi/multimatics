@@ -16,6 +16,8 @@ function App() {
           { name: "Register", url: "/register" },
           { name: "Camera", url: "/camera" },
           { name: "FormIdb", url: "/form-idb" },
+          { name: "Export File", url: "/export-file" },
+          { name: "Import File", url: "/import-file" },
         ]}
       />
       <div className="mt-20">
