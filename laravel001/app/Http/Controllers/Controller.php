@@ -13,6 +13,7 @@ use Illuminate\Routing\Controller as BaseController;
  *  description="This is a simple API for learning purpose",
  * )
  */
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;

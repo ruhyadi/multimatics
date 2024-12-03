@@ -14,6 +14,7 @@ class CategoryController extends Controller
      *     path="/api/categories",
      *     summary="Retrieve a list of categories",
      *     tags={"Category"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Data kategori berhasil diambil",
