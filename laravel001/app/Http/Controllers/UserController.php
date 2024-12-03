@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -27,23 +28,6 @@ class UserController extends Controller
     {
         $response = [
             'message' => 'Hallo, ini adalah response dari controller UserController',
-            'status' => 'OK'
-        ];
-        return response()->json($response, 200);
-    }
-
-    function validasi(Request $request)
-    {
-        $request->validate([
-            'nama' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required|numeric',
-            'password' => 'required|min:6',
-            'confirm_password' => 'required|same:password'
-        ]);
-
-        $response = [
-            'message' => 'Data valid',
             'status' => 'OK'
         ];
         return response()->json($response, 200);
@@ -116,6 +100,14 @@ class UserController extends Controller
             $response['status'] = 'ERROR';
             return response()->json($response, 400);
         } else {
+            // insert user to database
+            User::create([
+                'name' => $request->input('nama'),
+                'email' => $request->input('email'),
+                'phone' => $request->input('phone'),
+                'password' => bcrypt($request->input('password')),
+            ]);
+
             $response['message'] = 'Data valid';
             $response['status'] = 'OK';
             return response()->json($response, 200);
