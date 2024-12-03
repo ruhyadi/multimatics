@@ -8,6 +8,7 @@ const HomeScreen = () => {
   const [isLoading, setIsloading] = useState(true);
   const [books, setBooks] = useState<BookCardProps[]>([]);
   const BASE_URL = "http://localhost:8000/api";
+  const PICS_URL = "http://localhost:8000/book_images";
   const TOKEN = "45|QH8y8IUteop2lQhCcbO8L6DHRTrwZ2KDjIG7FNIjc50285d8";
 
   const loadBooks = async () => {
@@ -22,6 +23,7 @@ const HomeScreen = () => {
         const data = response.data.data;
         setBooks(
           data.map((book: any) => ({
+            id: book.id,
             title: book.title,
             category: book.category.name,
             stock: book.stock,
@@ -47,12 +49,13 @@ const HomeScreen = () => {
       ) : (
         books.map((book, index) => (
           <BookCard
+            id={book.id}
             key={index}
             title={book.title}
             category={book.category}
             stock={book.stock}
             borrowedDate={book.borrowedDate}
-            picture={book.picture}
+            picture={`${PICS_URL}/${book.picture}`}
           />
         ))
       )}

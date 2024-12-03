@@ -1,6 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export type BookCardProps = {
+  id: number;
   title: string;
   category: string;
   stock: number;
@@ -9,6 +11,7 @@ export type BookCardProps = {
 };
 
 const BookCard: React.FC<BookCardProps> = ({
+  id,
   title,
   category,
   stock,
@@ -27,6 +30,14 @@ const BookCard: React.FC<BookCardProps> = ({
         <p className="text-sm text-gray-600">{category}</p>
         <p className="text-sm text-gray-600">Stock: {stock}</p>
         <p className="text-sm text-gray-600">Borrowed Date: {borrowedDate}</p>
+      </div>
+      <div className="p-4">
+        <Link
+          to={`/detail/${id}`}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-10"
+        >
+          Details
+        </Link>
       </div>
     </div>
   );

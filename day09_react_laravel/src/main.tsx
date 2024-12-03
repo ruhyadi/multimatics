@@ -1,12 +1,13 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import ErrorScreen from './pages/Error.tsx'
-import HomeScreen from './pages/Home.tsx'
-import LoginScreen from './pages/Login.tsx'
-import RegisterScreen from './pages/Register.tsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.tsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ErrorScreen from "./pages/Error.tsx";
+import HomeScreen from "./pages/Home.tsx";
+import LoginScreen from "./pages/Login.tsx";
+import RegisterScreen from "./pages/Register.tsx";
+import BookDetails from "./pages/BookDetails.tsx";
 
 const router = createBrowserRouter([
   {
@@ -16,22 +17,26 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomeScreen />
+        element: <HomeScreen />,
       },
       {
         path: "/login",
-        element: <LoginScreen />
+        element: <LoginScreen />,
       },
       {
         path: "/register",
-        element: <RegisterScreen />
+        element: <RegisterScreen />,
       },
-    ]
-  }
-])
+      {
+        path: "/detail/:id",
+        element: <BookDetails />,
+      },
+    ],
+  },
+]);
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>,
-)
+  </StrictMode>
+);
