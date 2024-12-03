@@ -12,5 +12,13 @@ RUN npm install -g typescript
 # install laravel
 RUN composer global require laravel/installer
 
-# install php mysql with docker
-RUN docker-php-ext-install pdo_mysql
+# # install php dependencies
+# RUN apt-get update && apt-get install -y \
+#     libpng-dev \
+#     libjpeg-dev \
+#     libfreetype6-dev \
+#     && docker-php-ext-configure gd --with-freetype --with-jpeg \
+#     && docker-php-ext-install -j$(nproc) gd pdo_mysql
+
+# install packages with docker php extension
+RUN docker-php-ext-install pdo_mysql pdo_pgsql
