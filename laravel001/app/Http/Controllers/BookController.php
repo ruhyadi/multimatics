@@ -186,4 +186,38 @@ class BookController extends Controller
             return response()->json($response, 404);
         }
     }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/books/{id}",
+     *     summary="Delete book by ID",
+     *     tags={"Books"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the book",
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Data berhasil dihapus"),
+     *             @OA\Property(property="status", type="string", example="OK")
+     *         )
+     *     )
+     * )
+     */
+    function delete($id)
+    {
+        $response = [];
+        Book::find($id)->delete();
+        $response['message'] = 'Data berhasil dihapus';
+        $response['status'] = "OK";
+        return response()->json($response, 200);
+    }
 }

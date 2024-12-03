@@ -24,3 +24,4 @@ Route::get('/categories', 'App\Http\Controllers\CategoryController@list');
 Route::post('/books', 'App\Http\Controllers\BookController@addBook');
 Route::get('/books', 'App\Http\Controllers\BookController@list');
 Route::get('/books/{id}', 'App\Http\Controllers\BookController@detail');
+Route::delete('/books/{id}', 'App\Http\Controllers\BookController@delete');
