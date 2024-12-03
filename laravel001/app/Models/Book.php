@@ -16,4 +16,10 @@ class Book extends Model
         'borrow_date',
         'image',
     ];
+
+    // relation
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

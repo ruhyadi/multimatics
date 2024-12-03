@@ -6,6 +6,7 @@ use App\Models\Book;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
@@ -50,7 +51,7 @@ class BookController extends Controller
     {
         $response = [];
         $rules = [
-            'category_id' => 'required',
+            'category_id' => 'required|exists:categories,id',
             'title' => 'required',
             'stock' => 'required',
             'borrow_date' => 'required|after_or_equal:now',
@@ -94,6 +95,49 @@ class BookController extends Controller
             $response['message'] = 'Data valid';
             $response['status'] = 'OK';
             return response()->json($response, 200);
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/books",
+     *     summary="List all books with their categories",
+     *     tags={"Books"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful response",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Data valid"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    function list()
+    {
+        $response = [];
+        $data = Book::with('category')->get();
+        $response['message'] = 'Data valid';
+        $response['data'] = $data;
+        return response()->json($response, 200);
+    }
+
+    function detail($id)
+    {
+        $response = [];
+        $data = Book::with('category')->find($id);
+        if ($data) {
+            $response['message'] = 'Data valid';
+            $response['data'] = $data;
+            return response()->json($response, 200);
+        } else {
+            $response['message'] = 'Data tidak ditemukan';
+            $response['status'] = 'ERROR';
+            return response()->json($response, 404);
         }
     }
 }
