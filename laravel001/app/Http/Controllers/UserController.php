@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -114,5 +115,63 @@ class UserController extends Controller
         }
 
         return json_encode($response);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     summary="User login",
+     *     description="Authenticate user and return access token",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email","password"},
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="password123")
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Login successful",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Login berhasil"),
+     *             @OA\Property(property="status", type="string", example="OK"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="access_token", type="string", example="Bearer token")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Login failed",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Login gagal"),
+     *             @OA\Property(property="status", type="string", example="ERROR")
+     *         )
+     *     )
+     * )
+     */
+    function login(Request $request)
+    {
+        $response = [];
+        $data = Auth::attempt([
+            'email' => $request->input('email'),
+            'password' => $request->input('password')
+        ]);
+        if ($data) {
+            $user = Auth::user();
+            $response['message'] = 'Login berhasil';
+            $response['status'] = 'OK';
+            $response['data'] = [
+                "access_token" => "Bearer " . $user->createToken('token')->plainTextToken,
+                "user" => $user
+            ];
+            return response()->json($response, 200);
+        } else {
+            $response['message'] = 'Login gagal';
+            $response['status'] = 'ERROR';
+            return response()->json($response, 400);
+        }
     }
 }
