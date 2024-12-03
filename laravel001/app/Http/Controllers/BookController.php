@@ -220,4 +220,99 @@ class BookController extends Controller
         $response['status'] = "OK";
         return response()->json($response, 200);
     }
+
+    /**
+     * @OA\Post(
+     *     path="/api/books/{id}",
+     *     summary="Update book by ID",
+     *     tags={"Books"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the book",
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 @OA\Property(property="category_id", type="integer", example=1),
+     *                 @OA\Property(property="title", type="string", example="Book Title"),
+     *                 @OA\Property(property="stock", type="integer", example=10),
+     *                 @OA\Property(property="borrow_date", type="string", format="date-time", example="2023-10-10 00:00:00"),
+     *                 @OA\Property(property="image", type="string", format="binary")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Data valid"),
+     *             @OA\Property(property="status", type="string", example="OK")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="object"),
+     *             @OA\Property(property="status", type="string", example="ERROR")
+     *         )
+     *     )
+     * )
+     */
+    function update(Request $request, $id)
+    {
+        $response = [];
+        $rules = [
+            'category_id' => 'required|exists:categories,id',
+            'title' => 'required',
+            'stock' => 'required',
+            'borrow_date' => 'required|after_or_equal:now',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ];
+        $attributes = [
+            'category_id' => 'ID Kategori',
+            'title' => 'Judul Buku',
+            'stock' => 'Stok Buku',
+            'borrow_date' => 'Tanggal Pinjam',
+            'image' => 'Gambar Buku'
+        ];
+        $message = [
+            'required' => ':attribute harus diisi',
+            'after_or_equal' => ':attribute harus setelah atau sama dengan hari ini',
+            'image' => ':attribute harus berupa gambar',
+            'mimes' => ':attribute harus berupa gambar dengan format jpeg, png, jpg, gif, atau svg',
+            'max' => ':attribute tidak boleh lebih dari 2MB'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message, $attributes);
+        if ($validator->fails()) {
+            $response['message'] = $validator->errors();
+            $response['status'] = 'ERROR';
+            return response()->json($response, 400);
+        } else {
+            // insert book to database
+            $photo = $request->file('image');
+            $photo->move(public_path('book_images'), $photo->getClientOriginalName());
+
+            $book = Book::find($id);
+            $book->category_id = $request->input('category_id');
+            $book->title = $request->input('title');
+            $book->stock = $request->input('stock');
+            $book->borrow_date = Carbon::parse($request->input('borrow_date'))->format('Y-m-d H:i:s');
+            $book->image = $request->file('image')->getClientOriginalName();
+            $book->save();
+
+            $response['message'] = 'Data valid';
+            $response['status'] = 'OK';
+            return response()->json($response, 200);
+        }
+    }
 }
