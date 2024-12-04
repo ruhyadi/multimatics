@@ -3,6 +3,7 @@ import { BookCardProps } from "./BookCard";
 import { useForm } from "react-hook-form";
 import AuthContext from "../context/AuthContext";
 import axios from "axios";
+import Spinner from "./Spinner";
 
 type BookModalProps = {
   onConfirm: (book: BookCardProps) => void;
@@ -131,7 +132,7 @@ const BookModal: React.FC<BookModalProps> = ({ onConfirm, onDismiss }) => {
               type="submit"
               className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700"
             >
-              Add Book
+              {isLoading ? <Spinner /> : "Add Book"}
             </button>
           </div>
         </form>

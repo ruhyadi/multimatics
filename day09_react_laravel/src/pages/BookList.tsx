@@ -9,6 +9,14 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import BookModal from "../components/BookModal";
 
+type BookRegisterSchema = {
+  category_id: number;
+  title: string;
+  stock: number;
+  borrow_date: string;
+  image: string;
+};
+
 const BookList: React.FC = () => {
   const [isLoading, setIsloading] = useState(true);
   const { token } = useContext(AuthContext);
@@ -78,9 +86,49 @@ const BookList: React.FC = () => {
     setIsAddModalVisible(true);
   };
 
+  // add book to server
+  const handleAddBookApi = async (book: BookRegisterSchema) => {
+    setIsloading(true);
+    axios
+      .post(`${BASE_URL}/books`, book, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      })
+      .then((response) => {
+        if (response.status == 200) {
+          Toast.fire({
+            icon: "success",
+            title: "Success adding book",
+          });
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: "Failed to add book",
+          });
+        }
+      })
+      .catch((error) => {
+        Toast.fire({
+          icon: "error",
+          title: error.response.data.message,
+        });
+      })
+      .finally(() => {
+        setIsloading(false);
+      });
+  };
+
   // handle confirm add books
   const handleConfirmAddBook = (book: BookCardProps) => {
-    console.log("Book: ", book);
+    setAddBook(book);
+    handleAddBookApi({
+      category_id: Number(book.category),
+      title: book.title,
+      stock: book.stock,
+      borrow_date: book.borrowedDate,
+      image: book.picture,
+    });
     setIsAddModalVisible(false);
   };
 
