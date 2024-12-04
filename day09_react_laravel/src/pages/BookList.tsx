@@ -1,11 +1,12 @@
 import React from "react";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import { Toast } from "../components/Toast";
 import AuthContext from "../context/AuthContext";
 import { BookCardProps } from "../components/BookCard";
 import Spinner from "../components/Spinner";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const BookList: React.FC = () => {
   const [isLoading, setIsloading] = useState(true);
@@ -36,9 +37,37 @@ const BookList: React.FC = () => {
         );
       })
       .catch((error) => {
-        Swal.fire("Error", error.message, "error");
+        Toast.fire("Error", error.message, "error");
       })
       .finally(() => setIsloading(false));
+  };
+
+  const handleDelete = async (id: number) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`${BASE_URL}/books/${id}`, {
+            headers: {
+              Authorization: `${token}`,
+            },
+          })
+          .then(() => {
+            Toast.fire("Deleted!", "Your file has been deleted.", "success");
+            loadBooks();
+          })
+          .catch((error) => {
+            Toast.fire("Error", error.message, "error");
+          });
+      }
+    });
   };
 
   useEffect(() => {
@@ -80,12 +109,20 @@ const BookList: React.FC = () => {
                 <td className="py-2">{book.stock}</td>
                 <td className="py-2">{book.borrowedDate}</td>
                 <td className="py-2">
-                  <Link
-                    to={`/detail/${book.id}`}
-                    className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-                  >
-                    Details
-                  </Link>
+                  <div className="space-x-2">
+                    <Link
+                      to={`/detail/${book.id}`}
+                      className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                    >
+                      Details
+                    </Link>
+                    <button
+                      className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+                      onClick={() => handleDelete(book.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
