@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Toast } from "../components/Toast";
 import Spinner from "../components/Spinner";
 import axios from "axios";
+import AuthContext from "../context/AuthContext";
 
 type FormData = {
   email: string;
@@ -11,6 +12,7 @@ type FormData = {
 };
 
 const LoginScreen = () => {
+  const { token, setToken } = useContext(AuthContext);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const BASE_URL = "http://localhost:8000/api";
@@ -32,6 +34,7 @@ const LoginScreen = () => {
             title: "Login success",
           });
           localStorage.setItem("token", response.data.data.access_token);
+          setToken(response.data.data.access_token);
           navigate("/");
         } else {
           Toast.fire({

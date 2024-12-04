@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { BookCardProps } from "../components/BookCard";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import AuthContext from "../context/AuthContext";
 
 const BookDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const { token, setToken } = useContext(AuthContext);
   const [book, setBook] = useState<BookCardProps | null>(null);
   const BASE_URL = "http://localhost:8000/api";
   const PICS_URL = "http://localhost:8000/book_images";
-  const TOKEN = localStorage.getItem("token");
+  // const TOKEN = localStorage.getItem("token");
+  const TOKEN = token;
 
   const loadBook = async () => {
     axios

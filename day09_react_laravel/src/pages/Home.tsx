@@ -1,15 +1,18 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BookCardProps } from "../components/BookCard";
 import Swal from "sweetalert2";
 import BookCard from "../components/BookCard";
+import AuthContext from "../context/AuthContext";
 
 const HomeScreen = () => {
   const [isLoading, setIsloading] = useState(true);
+  const { token, setToken } = useContext(AuthContext);
   const [books, setBooks] = useState<BookCardProps[]>([]);
   const BASE_URL = "http://localhost:8000/api";
   const PICS_URL = "http://localhost:8000/book_images";
-  const TOKEN = localStorage.getItem("token");
+  // const TOKEN = localStorage.getItem("token");
+  const TOKEN = token;
 
   const loadBooks = async () => {
     setIsloading(true);
