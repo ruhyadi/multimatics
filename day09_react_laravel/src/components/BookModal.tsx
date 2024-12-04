@@ -1,19 +1,55 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BookCardProps } from "./BookCard";
 import { useForm } from "react-hook-form";
+import AuthContext from "../context/AuthContext";
+import axios from "axios";
 
 type BookModalProps = {
   onConfirm: (book: BookCardProps) => void;
   onDismiss: () => void;
 };
 
+type CategorySchema = {
+  id: number;
+  name: string;
+};
+
 const BookModal: React.FC<BookModalProps> = ({ onConfirm, onDismiss }) => {
+  const [isLoading, setIsloading] = useState(false);
+  const [categories, setCategories] = useState<CategorySchema[]>([]);
+  const { token, setToken } = useContext(AuthContext);
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm<BookCardProps>();
+
+  const BASE_URL = "http://localhost:8000/api";
+
+  const loadCategories = async () => {
+    setIsloading(true);
+    axios
+      .get(`${BASE_URL}/categories`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      })
+      .then((response) => {
+        setCategories(response.data.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setIsloading(false);
+      });
+  };
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -34,12 +70,17 @@ const BookModal: React.FC<BookModalProps> = ({ onConfirm, onDismiss }) => {
           </div>
           <div className="mb-4">
             <label className="block text-gray-700">Category</label>
-            <input
-              type="text"
+            <select
               className="w-full px-3 py-2 border rounded-lg"
-              placeholder="Enter book category"
               {...register("category", { required: true })}
-            />
+            >
+              <option value="">Select category</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
             {errors.category && (
               <span className="text-red-500">Category is required</span>
             )}
