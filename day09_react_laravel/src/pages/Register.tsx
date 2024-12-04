@@ -2,18 +2,21 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Toast } from "../components/Toast";
+import Spinner from "../components/Spinner";
+import axios from "axios";
 
 type FormData = {
-  name: string;
+  nama: string;
   email: string;
   phone: string;
   password: string;
-  password_confirmation: string;
+  confirm_password: string;
 };
 
 const RegisterScreen = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const BASE_URL = "http://localhost:8000/api";
 
   const {
     register,
@@ -24,11 +27,26 @@ const RegisterScreen = () => {
 
   const onSubmit = async (data: FormData) => {
     console.log(data);
-    Toast.fire({
-      icon: "success",
-      title: "Register success",
-    });
-    // navigate("/login");
+    axios
+      .post(`${BASE_URL}/register`, data)
+      .then((response) => {
+        if (response.status === 200) {
+          Toast.fire({
+            icon: "success",
+            title: "Register success",
+          });
+          navigate("/login");
+        }
+      })
+      .catch((error) => {
+        Toast.fire({
+          icon: "error",
+          title: error.response.data.message,
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -45,13 +63,13 @@ const RegisterScreen = () => {
             Name
           </label>
           <input
-            id="name"
+            id="nama"
             type="text"
-            {...register("name", { required: "Name is required" })}
+            {...register("nama", { required: "Name is required" })}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
-          {errors.name && (
-            <p className="mt-2 text-sm text-red-600">{errors.name.message}</p>
+          {errors.nama && (
+            <p className="mt-2 text-sm text-red-600">{errors.nama.message}</p>
           )}
         </div>
 
@@ -125,18 +143,18 @@ const RegisterScreen = () => {
             Confirm Password
           </label>
           <input
-            id="password_confirmation"
+            id="confirm_password"
             type="password"
-            {...register("password_confirmation", {
+            {...register("confirm_password", {
               required: "Password confirmation is required",
               validate: (value) =>
                 value === watch("password") || "Passwords do not match",
             })}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
-          {errors.password_confirmation && (
+          {errors.confirm_password && (
             <p className="mt-2 text-sm text-red-600">
-              {errors.password_confirmation.message}
+              {errors.confirm_password.message}
             </p>
           )}
         </div>
@@ -146,7 +164,7 @@ const RegisterScreen = () => {
           disabled={isLoading}
           className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
-          {isLoading ? "Registering..." : "Register"}
+          {isLoading ? <Spinner /> : "Register"}
         </button>
       </form>
     </div>
