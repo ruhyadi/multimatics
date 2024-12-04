@@ -8,6 +8,7 @@ import HomeScreen from "./pages/Home.tsx";
 import LoginScreen from "./pages/Login.tsx";
 import RegisterScreen from "./pages/Register.tsx";
 import BookDetails from "./pages/BookDetails.tsx";
+import BookList from "./pages/BookList.tsx";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/detail/:id",
         element: <BookDetails />,
+      },
+      {
+        path: "/admin",
+        element: <BookList />,
       },
     ],
   },

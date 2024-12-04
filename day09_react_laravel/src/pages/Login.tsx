@@ -31,7 +31,13 @@ const LoginScreen = () => {
             icon: "success",
             title: "Login success",
           });
-          navigate("/dashboard");
+          localStorage.setItem("token", response.data.data.access_token);
+          navigate("/");
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: "Login failed",
+          });
         }
       })
       .catch((error) => {

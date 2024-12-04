@@ -9,7 +9,7 @@ const BookDetails: React.FC = () => {
   const [book, setBook] = useState<BookCardProps | null>(null);
   const BASE_URL = "http://localhost:8000/api";
   const PICS_URL = "http://localhost:8000/book_images";
-  const TOKEN = "45|QH8y8IUteop2lQhCcbO8L6DHRTrwZ2KDjIG7FNIjc50285d8";
+  const TOKEN = localStorage.getItem("token");
 
   const loadBook = async () => {
     axios
