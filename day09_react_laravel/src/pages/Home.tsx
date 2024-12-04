@@ -12,14 +12,13 @@ const HomeScreen = () => {
   const BASE_URL = "http://localhost:8000/api";
   const PICS_URL = "http://localhost:8000/book_images";
   // const TOKEN = localStorage.getItem("token");
-  const TOKEN = token;
 
   const loadBooks = async () => {
     setIsloading(true);
     axios
       .get(`${BASE_URL}/books`, {
         headers: {
-          Authorization: `Bearer ${TOKEN}`,
+          Authorization: `${token}`,
         },
       })
       .then((response) => {

@@ -9,6 +9,8 @@ import LoginScreen from "./pages/Login.tsx";
 import RegisterScreen from "./pages/Register.tsx";
 import BookDetails from "./pages/BookDetails.tsx";
 import BookList from "./pages/BookList.tsx";
+import AuthMiddleware from "./middleware/AuthMiddleware.tsx";
+import AuthContext from "./context/AuthContext.ts";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +20,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomeScreen />,
+        element: (
+          <AuthMiddleware>
+            <HomeScreen />
+          </AuthMiddleware>
+        ),
       },
       {
         path: "/login",
@@ -30,18 +36,28 @@ const router = createBrowserRouter([
       },
       {
         path: "/detail/:id",
-        element: <BookDetails />,
+        element: (
+          <AuthMiddleware>
+            <BookDetails />
+          </AuthMiddleware>
+        ),
       },
       {
         path: "/admin",
-        element: <BookList />,
+        element: (
+          <AuthMiddleware>
+            <BookList />
+          </AuthMiddleware>
+        ),
       },
     ],
   },
 ]);
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>
+  <AuthContext.Provider value={{ token: null, setToken: () => {} }}>
+    <StrictMode>
+      <RouterProvider router={router} />
+    </StrictMode>
+  </AuthContext.Provider>
 );

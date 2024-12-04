@@ -12,13 +12,12 @@ const BookDetails: React.FC = () => {
   const BASE_URL = "http://localhost:8000/api";
   const PICS_URL = "http://localhost:8000/book_images";
   // const TOKEN = localStorage.getItem("token");
-  const TOKEN = token;
 
   const loadBook = async () => {
     axios
       .get(`${BASE_URL}/books/${id}`, {
         headers: {
-          Authorization: `Bearer ${TOKEN}`,
+          Authorization: `${token}`,
         },
       })
       .then((response) => {
